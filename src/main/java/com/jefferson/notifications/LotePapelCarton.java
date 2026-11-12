@@ -1,6 +1,6 @@
 package com.jefferson.notifications;
 
-public class LotePapelCarton extends Lote implements IEtiquetable {
+public class LotePapelCarton extends Lote {
     private static final double VALOR_KG = 500;
     private static final double VALOR_EXTRA_KG = 100;
 
@@ -15,11 +15,6 @@ public class LotePapelCarton extends Lote implements IEtiquetable {
     public double calcularValor() {
         double valorPorKg = VALOR_KG + (clasificado ? VALOR_EXTRA_KG : 0);
         return pesoKg * valorPorKg;
-    }
-
-    @Override
-    public String generarEtiqueta() {
-        return "PAPEL/CARTON - " + codigo + " - " + pesoKg + "kg" + (clasificado ? " (clasificado)" : "");
     }
 
     public boolean isClasificado() {

@@ -21,7 +21,10 @@ public class Entrega {
     }
 
     public boolean agregarLote(Lote lote) {
-        if (!estaAbierta() || lote == null) {
+        if (!estaAbierta() || lote == null || lote.getPesoKg() <= 0) {
+            return false;
+        }
+        if (buscarLote(lote.getCodigo()) != null) {
             return false;
         }
         return lotes.add(lote);
@@ -38,7 +41,7 @@ public class Entrega {
 
     public boolean actualizarLote(String codigo, String nuevaDescripcion, int nuevoPeso) {
         Lote lote = buscarLote(codigo);
-        if (lote == null || !estaAbierta()) {
+        if (lote == null || !estaAbierta() || nuevoPeso <= 0) {
             return false;
         }
         lote.setDescripcion(nuevaDescripcion);
@@ -55,7 +58,7 @@ public class Entrega {
     }
 
     public boolean aceptar() {
-        if (!estaAbierta()) {
+        if (!estaAbierta() || lotes.isEmpty()) {
             return false;
         }
         this.estado = EstadoEntrega.ACEPTADA;

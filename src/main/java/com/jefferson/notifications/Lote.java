@@ -32,4 +32,9 @@ public abstract class Lote {
     public void setPesoKg(int pesoKg) {
         this.pesoKg = pesoKg;
     }
+
+    @Override
+    public String toString() {
+        return String.format("[%s] %s - %dkg - $%.2f", codigo, descripcion, pesoKg, calcularValor());
+    }
 }
