@@ -24,6 +24,9 @@ public class Entrega {
         if (!estaAbierta() || lote == null || lote.getPesoKg() <= 0) {
             return false;
         }
+        if (lote instanceof LoteElectronico electronico && electronico.getEquiposCompletos() < 0) {
+            return false;
+        }
         if (buscarLote(lote.getCodigo()) != null) {
             return false;
         }
@@ -55,41 +58,6 @@ public class Entrega {
         }
         Lote lote = buscarLote(codigo);
         return lote != null && lotes.remove(lote);
-    }
-
-    public boolean aceptar() {
-        if (!estaAbierta() || lotes.isEmpty()) {
-            return false;
-        }
-        this.estado = EstadoEntrega.ACEPTADA;
-        this.comprobante = new Comprobante(codigo, aportante.identificacion(), calcularPesoTotal(), calcularValorTotal());
-        return true;
-    }
-
-    public int calcularPesoTotal() {
-        int total = 0;
-        for (Lote lote : lotes) {
-            total += lote.getPesoKg();
-        }
-        return total;
-    }
-
-    public double calcularValorTotal() {
-        double total = 0;
-        for (Lote lote : lotes) {
-            total += lote.calcularValor();
-        }
-        return total;
-    }
-
-    public ArrayList<String> obtenerEtiquetas() {
-        ArrayList<String> etiquetas = new ArrayList<>();
-        for (Lote lote : lotes) {
-            if (lote instanceof IEtiquetable etiquetable) {
-                etiquetas.add(etiquetable.generarEtiqueta());
-            }
-        }
-        return etiquetas;
     }
 
     public boolean estaAbierta() {

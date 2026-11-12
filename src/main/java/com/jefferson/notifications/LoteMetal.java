@@ -1,6 +1,6 @@
 package com.jefferson.notifications;
 
-public class LoteMetal extends Lote implements IEtiquetable {
+public class LoteMetal extends Lote {
     private static final double VALOR_ALUMINIO = 2200;
     private static final double VALOR_ACERO = 900;
 
@@ -15,11 +15,6 @@ public class LoteMetal extends Lote implements IEtiquetable {
     public double calcularValor() {
         double valorPorKg = tipo == TipoMetal.ALUMINIO ? VALOR_ALUMINIO : VALOR_ACERO;
         return pesoKg * valorPorKg;
-    }
-
-    @Override
-    public String generarEtiqueta() {
-        return "METAL - " + codigo + " - " + tipo + " - " + pesoKg + "kg";
     }
 
     public TipoMetal getTipo() {

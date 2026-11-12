@@ -1,6 +1,6 @@
 package com.jefferson.notifications;
 
-public class LoteElectronico extends Lote implements IEtiquetable {
+public class LoteElectronico extends Lote {
     private static final double VALOR_KG = 1400;
     private static final double VALOR_EQUIPO = 800;
 
@@ -14,11 +14,6 @@ public class LoteElectronico extends Lote implements IEtiquetable {
     @Override
     public double calcularValor() {
         return (pesoKg * VALOR_KG) + (equiposCompletos * VALOR_EQUIPO);
-    }
-
-    @Override
-    public String generarEtiqueta() {
-        return "ELECTRONICO - " + codigo + " - " + pesoKg + "kg - " + equiposCompletos + " equipos completos";
     }
 
     public int getEquiposCompletos() {

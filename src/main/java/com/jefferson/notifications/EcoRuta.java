@@ -72,7 +72,7 @@ public class EcoRuta {
 
     public boolean eliminarEntrega(String codigo) {
         Entrega entrega = buscarEntrega(codigo);
-        return entrega != null && entregas.remove(entrega);
+        return entrega != null && entrega.estaAbierta() && entregas.remove(entrega);
     }
 
     public boolean agregarLoteAEntrega(String codigoEntrega, Lote lote) {
@@ -80,29 +80,4 @@ public class EcoRuta {
         return entrega != null && entrega.agregarLote(lote);
     }
 
-    public boolean aceptarEntrega(String codigo) {
-        Entrega entrega = buscarEntrega(codigo);
-        return entrega != null && entrega.aceptar();
-    }
-
-    public Comprobante consultarComprobante(String codigoEntrega) {
-        Entrega entrega = buscarEntrega(codigoEntrega);
-        return entrega == null ? null : entrega.getComprobante();
-    }
-
-    public ArrayList<String> consultarEtiquetas(String codigoEntrega) {
-        Entrega entrega = buscarEntrega(codigoEntrega);
-        return entrega == null ? new ArrayList<>() : entrega.obtenerEtiquetas();
-    }
-
-    public double consultarValorAcumulado(String idAportante) {
-        double total = 0;
-        for (Entrega entrega : entregas) {
-            if (entrega.getAportante().identificacion().equals(idAportante)
-                    && entrega.getComprobante() != null) {
-                total += entrega.getComprobante().valorTotal();
-            }
-        }
-        return total;
-    }
 }
