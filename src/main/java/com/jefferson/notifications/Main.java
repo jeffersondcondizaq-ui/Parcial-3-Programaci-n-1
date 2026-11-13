@@ -54,7 +54,7 @@ public class Main {
         String opcion;
         do {
             opcion = mostrarMenu("Aportantes", new String[]{
-                    "Buscar aportante", "Listar aportantes", "Volver"});
+                    "Buscar aportante", "Listar aportantes", "Eliminar aportante", "Volver"});
             if (opcion == null) {
                 opcion = "Volver";
             }
@@ -62,6 +62,7 @@ public class Main {
                 switch (opcion) {
                     case "Buscar aportante" -> buscarAportante();
                     case "Listar aportantes" -> listarAportantes();
+                    case "Eliminar aportante" -> eliminarAportante();
                     case "Volver" -> {
                     }
                 }
@@ -88,6 +89,12 @@ public class Main {
         mostrarMensaje(sb.toString());
     }
 
+    private static void eliminarAportante() {
+        String identificacion = leerTexto("Identificacion del aportante a eliminar:");
+        boolean exito = ecoRuta.eliminarAportante(identificacion);
+        mostrarMensaje(exito ? "Aportante eliminado." : "No existe un aportante con esa identificacion.");
+    }
+
     // ---------- MENU ENTREGAS ----------
 
     private static void menuEntregas() {
@@ -95,6 +102,7 @@ public class Main {
         do {
             opcion = mostrarMenu("Entregas", new String[]{
                     "Crear entrega", "Agregar lote", "Buscar lote", "Eliminar lote",
+                    "Actualizar fecha", "Aceptar entrega", "Ver comprobante", "Ver etiquetas",
                     "Buscar entrega", "Listar entregas", "Eliminar entrega", "Volver"});
             if (opcion == null) {
                 opcion = "Volver";
@@ -105,6 +113,10 @@ public class Main {
                     case "Agregar lote" -> agregarLoteAEntrega();
                     case "Buscar lote" -> buscarLote();
                     case "Eliminar lote" -> eliminarLote();
+                    case "Actualizar fecha" -> actualizarFechaEntrega();
+                    case "Aceptar entrega" -> aceptarEntrega();
+                    case "Ver comprobante" -> verComprobante();
+                    case "Ver etiquetas" -> verEtiquetas();
                     case "Buscar entrega" -> buscarEntrega();
                     case "Listar entregas" -> listarEntregas();
                     case "Eliminar entrega" -> eliminarEntrega();
@@ -195,6 +207,45 @@ public class Main {
         String codigoLote = leerTexto("Codigo del lote a eliminar:");
         boolean exito = entrega.eliminarLote(codigoLote);
         mostrarMensaje(exito ? "Lote eliminado." : "No se pudo eliminar el lote.");
+    }
+
+    private static void actualizarFechaEntrega() {
+        Entrega entrega = seleccionarEntrega();
+        LocalDate nuevaFecha = leerFecha("Nueva fecha (yyyy-MM-dd):");
+        boolean exito = ecoRuta.actualizarFechaEntrega(entrega.getCodigo(), nuevaFecha);
+        mostrarMensaje(exito ? "Fecha actualizada." : "No se pudo actualizar la fecha.");
+    }
+
+    private static void aceptarEntrega() {
+        Entrega entrega = seleccionarEntrega();
+        boolean exito = ecoRuta.aceptarEntrega(entrega.getCodigo());
+        mostrarMensaje(exito ? "Entrega aceptada. Se genero el comprobante."
+                : "No se pudo aceptar la entrega (ya fue aceptada o no tiene lotes).");
+    }
+
+    private static void verComprobante() {
+        Entrega entrega = seleccionarEntrega();
+        Comprobante comprobante = ecoRuta.consultarComprobante(entrega.getCodigo());
+        mostrarMensaje(comprobante != null ? detalleComprobante(comprobante)
+                : "La entrega aun no tiene comprobante (debe ser aceptada primero).");
+    }
+
+    private static String detalleComprobante(Comprobante comprobante) {
+        return String.format("Comprobante entrega %s%nAportante: %s%nPeso total: %d kg%nValor total: $%.2f",
+                comprobante.codigoEntrega(), comprobante.idAportante(),
+                comprobante.pesoTotal(), comprobante.valorTotal());
+    }
+
+    private static void verEtiquetas() {
+        Entrega entrega = seleccionarEntrega();
+        ArrayList<String> etiquetas = ecoRuta.consultarEtiquetas(entrega.getCodigo());
+        if (etiquetas.isEmpty()) {
+            mostrarMensaje("No hay etiquetas para esta entrega.");
+            return;
+        }
+        StringBuilder sb = new StringBuilder();
+        etiquetas.forEach(e -> sb.append(e).append("\n"));
+        mostrarMensaje(sb.toString());
     }
 
     private static void buscarEntrega() {
