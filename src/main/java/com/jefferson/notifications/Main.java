@@ -54,7 +54,7 @@ public class Main {
         String opcion;
         do {
             opcion = mostrarMenu("Aportantes", new String[]{
-                    "Buscar aportante", "Listar aportantes", "Eliminar aportante", "Volver"});
+                    "Buscar aportante", "Listar aportantes", "Eliminar aportante", "Valor acumulado", "Volver"});
             if (opcion == null) {
                 opcion = "Volver";
             }
@@ -63,6 +63,7 @@ public class Main {
                     case "Buscar aportante" -> buscarAportante();
                     case "Listar aportantes" -> listarAportantes();
                     case "Eliminar aportante" -> eliminarAportante();
+                    case "Valor acumulado" -> consultarValorAcumulado();
                     case "Volver" -> {
                     }
                 }
@@ -93,6 +94,12 @@ public class Main {
         String identificacion = leerTexto("Identificacion del aportante a eliminar:");
         boolean exito = ecoRuta.eliminarAportante(identificacion);
         mostrarMensaje(exito ? "Aportante eliminado." : "No existe un aportante con esa identificacion.");
+    }
+
+    private static void consultarValorAcumulado() {
+        String identificacion = leerTexto("Identificacion del aportante:");
+        double total = ecoRuta.consultarValorAcumulado(identificacion);
+        mostrarMensaje(String.format("Valor acumulado de %s: $%.2f", identificacion, total));
     }
 
     // ---------- MENU ENTREGAS ----------
