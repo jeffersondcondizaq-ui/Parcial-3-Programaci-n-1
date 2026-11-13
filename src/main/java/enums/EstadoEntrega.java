@@ -1,4 +1,4 @@
-package com.jefferson.notifications;
+package enums;
 
 public enum EstadoEntrega {
     ABIERTA,

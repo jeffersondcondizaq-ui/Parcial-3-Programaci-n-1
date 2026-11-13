@@ -1,4 +1,6 @@
-package com.jefferson.notifications;
+package models;
+
+import interfaces.IEtiquetable;
 
 public class LoteElectronico extends Lote implements IEtiquetable {
     private static final double VALOR_KG = 1400;

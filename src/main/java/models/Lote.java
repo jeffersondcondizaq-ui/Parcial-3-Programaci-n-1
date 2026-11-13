@@ -1,4 +1,4 @@
-package com.jefferson.notifications;
+package models;
 
 public abstract class Lote {
     protected String codigo;

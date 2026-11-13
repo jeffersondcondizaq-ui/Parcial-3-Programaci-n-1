@@ -1,4 +1,7 @@
-package com.jefferson.notifications;
+package models;
+
+import interfaces.IEtiquetable;
+import enums.EstadoEntrega;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

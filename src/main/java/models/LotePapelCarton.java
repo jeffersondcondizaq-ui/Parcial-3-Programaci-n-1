@@ -1,4 +1,4 @@
-package com.jefferson.notifications;
+package models;
 
 public class LotePapelCarton extends Lote {
     private static final double VALOR_KG = 500;

@@ -1,4 +1,7 @@
-package com.jefferson.notifications;
+package models;
+
+import interfaces.IEtiquetable;
+import enums.TipoMetal;
 
 public class LoteMetal extends Lote implements IEtiquetable {
     private static final double VALOR_ALUMINIO = 2200;

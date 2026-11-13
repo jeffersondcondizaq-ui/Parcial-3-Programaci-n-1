@@ -1,4 +1,4 @@
-package com.jefferson.notifications;
+package models;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

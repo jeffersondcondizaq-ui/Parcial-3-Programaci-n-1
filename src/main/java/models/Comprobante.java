@@ -1,4 +1,4 @@
-package com.jefferson.notifications;
+package models;
 
 public record Comprobante(String codigoEntrega, String idAportante, int pesoTotal, double valorTotal) {
 }

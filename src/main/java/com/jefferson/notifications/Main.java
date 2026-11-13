@@ -1,5 +1,8 @@
 package com.jefferson.notifications;
 
+import enums.TipoMetal;
+import models.*;
+
 import javax.swing.JOptionPane;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

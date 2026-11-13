@@ -1,4 +1,4 @@
-package com.jefferson.notifications;
+package interfaces;
 
 public interface IEtiquetable {
     String generarEtiqueta();
