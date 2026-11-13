@@ -80,4 +80,40 @@ public class EcoRuta {
         return entrega != null && entrega.agregarLote(lote);
     }
 
+
+    public double consultarValorAcumulado(String idAportante) {
+        double total = 0;
+        for (Entrega entrega : entregas) {
+            Comprobante comprobante = entrega.getComprobante();
+            if (comprobante != null && comprobante.idAportante().equals(idAportante)) {
+                total += comprobante.valorTotal();
+            }
+        }
+        return total;
+    }
+
+    public boolean aceptarEntrega(String codigo) {
+        Entrega entrega = buscarEntrega(codigo);
+        if (entrega == null) {
+            return false;
+        }
+        return entrega.aceptar();
+    }
+
+    public Comprobante consultarComprobante(String codigoEntrega) {
+        Entrega entrega = buscarEntrega(codigoEntrega);
+        if (entrega == null) {
+            return null;
+        }
+        return entrega.getComprobante();
+    }
+
+    public ArrayList<String> consultarEtiquetas(String codigoEntrega) {
+        Entrega entrega = buscarEntrega(codigoEntrega);
+        if (entrega == null) {
+            return new ArrayList<>();
+        }
+        return entrega.obtenerEtiquetas();
+    }
+
 }

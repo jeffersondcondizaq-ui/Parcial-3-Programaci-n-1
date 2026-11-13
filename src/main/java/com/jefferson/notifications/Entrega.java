@@ -60,7 +60,44 @@ public class Entrega {
         return lote != null && lotes.remove(lote);
     }
 
-    public boolean estaAbierta() {
+    public boolean aceptar() {
+        if (!estaAbierta() || lotes.isEmpty()) {
+            return false;
+        }
+        this.estado = EstadoEntrega.ACEPTADA;
+        this.comprobante = new Comprobante(codigo, aportante.identificacion(), calcularPesoTotal(), calcularValorTotal());
+        return true;
+    }
+
+    public int calcularPesoTotal() {
+        int total = 0;
+        for (Lote lote : lotes) {
+            total += lote.getPesoKg();
+        }
+        return total;
+    }
+
+    // Polimorfismo: cada lote usa su propia versión de calcularValor()
+    public double calcularValorTotal() {
+        double total = 0;
+        for (Lote lote : lotes) {
+            total += lote.calcularValor();
+        }
+        return total;
+    }
+
+    public ArrayList<String> obtenerEtiquetas() {
+        ArrayList<String> etiquetas = new ArrayList<>();
+        for (Lote lote : lotes) {
+            if (lote instanceof IEtiquetable) {
+                IEtiquetable etiquetable = (IEtiquetable) lote;
+                etiquetas.add(etiquetable.generarEtiqueta());
+            }
+        }
+        return etiquetas;
+    }
+
+    public boolean estaAbierta()  {
         return estado == EstadoEntrega.ABIERTA;
     }
 
